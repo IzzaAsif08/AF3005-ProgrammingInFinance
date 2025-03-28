@@ -3,6 +3,19 @@ import pandas as pd
 import yfinance as yf
 import plotly.express as px
 
+import streamlit as st
+
+import streamlit as st
+
+def load_css(file_name):
+    with open(file_name) as f:
+        css = f.read()
+        st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
+
+# Call the function to load the CSS
+load_css("style.css")
+
+
 st.title("🚀 CryptoGird: Smart Portfolio Tracker")
 
 # User Input
