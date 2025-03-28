@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&family=Montserrat:wght@400;600;800&display=swap');
+
+body {
+    background-color: #F0EDEE; /* Change background color */
+    font-family: 'Poppins', sans-serif; /* Custom Font */
+    color: #07393c; /* Text color */
+}
+
+/* Change Heading Styles */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif; 
+    color: #2C666E;
+}
+
+/* Customizing Streamlit Components */
+.stApp {
+    background-color: #dbdadac4;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Style Streamlit Buttons */
+.stButton > button {
+    background-color: #3498db;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    transition: 0.3s ease-in-out;
+}
+
+.stButton > button:hover {
+    background-color: #90DDF0;
+    transform: scale(1.05);
+}
+
+/* Style Sidebar */
+.stSidebar {
+    background-color: #07393C !important;
+    color: white !important;
+}
+
+/* Customize text input fields */
+.stTextInput>div>div>input {
+    background-color: #ecf0f1;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.stApp {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.stDataFrame {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.stButton > button {
+    transition: all 0.3s ease-in-out;
+}
+
+a {
+    color: #3498db !important;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
