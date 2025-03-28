@@ -6,20 +6,18 @@ body {
     color: #07393c; /* Text color */
 }
 
-/* Change Heading Styles */
+
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Montserrat', sans-serif; 
     color: #2C666E;
 }
 
-/* Customizing Streamlit Components */
 .stApp {
     background-color: #dbdadac4;
     padding: 20px;
     border-radius: 10px;
 }
 
-/* Style Streamlit Buttons */
 .stButton > button {
     background-color: #3498db;
     color: white;
@@ -34,7 +32,7 @@ h1, h2, h3, h4, h5, h6 {
     transform: scale(1.05);
 }
 
-/* Style Sidebar */
+
 .stSidebar {
     background-color: #07393C !important;
     color: white !important;
@@ -67,4 +65,14 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+
+.stSidebar .sidebar-content .block-title {
+    color: white !important;
+}
+
+.stSidebar .sidebar-content .stRadio label {
+    color: white !important;
+}
+
 
