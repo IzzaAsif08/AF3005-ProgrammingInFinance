@@ -5,7 +5,7 @@
 Course Name: AF3005 – Programming for Finance
 Instructor: Dr. Usama Arshad 
 
-CryptoGrid -  A Smart Cryptocurrency Portfolio Tracker  CryptoSage is a real-time cryptocurrency portfolio tracker built using Streamlit. It helps users monitor their crypto holdings, visualize portfolio distribution, and track market trends in an intuitive, interactive way.
+CryptoGrid -  A Smart Cryptocurrency Portfolio Tracker  Cryptogrid is a real-time cryptocurrency portfolio tracker built using Streamlit. It helps users monitor their crypto holdings, visualize portfolio distribution, and track market trends in an intuitive, interactive way.
 
 🌟 Features
 
