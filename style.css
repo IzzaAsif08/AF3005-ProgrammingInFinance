@@ -12,6 +12,28 @@ h1, h2, h3, h4, h5, h6 {
     color: #2C666E;
 }
 
+# Custom CSS to change link color to white
+st.markdown(
+    """
+    <style>
+    a {
+        color: white !important;
+        text-decoration: none;
+    }
+    a:hover {
+        color: #cccccc !important; /* Light gray on hover */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# Display news articles
+if articles:
+    for article in articles:
+        st.sidebar.markdown(f"🔹 <a href='{article['url']}' target='_blank'>{article['title']}</a>", unsafe_allow_html=True)
+
+
 /* Customizing Streamlit Components */
 .stApp {
     background-color: #dbdadac4;
