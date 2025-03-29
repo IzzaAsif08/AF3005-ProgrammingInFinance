@@ -77,14 +77,30 @@ if st.sidebar.button("Check Whale Transactions"):
 
 # Crypto News
 st.sidebar.header("📰 Crypto News")
-news_api_url = "https://api.coingecko.com/api/v3/news"
+news_api_url = "https://newsapi.org/v2/everything?q=cryptocurrency&apiKey=your_api_key"
+
+import requests
+
+st.sidebar.header("📰 Crypto News")
+
+# Use your actual API key here
+api_key = "15acab4c6aff4853abe5ae351a0e13d8"
+news_api_url = f"https://newsapi.org/v2/everything?q=cryptocurrency&sortBy=publishedAt&language=en&apiKey={api_key}"
+
 response = requests.get(news_api_url)
+
 if response.status_code == 200:
     news_data = response.json()
-    for article in news_data.get("data", [])[:5]:
-        st.sidebar.markdown(f"🔹 [{article['title']}]({article['url']})")
+    articles = news_data.get("articles", [])[:5]  # Get top 5 news articles
+
+    if articles:
+        for article in articles:
+            st.sidebar.markdown(f"🔹 [{article['title']}]({article['url']})")
+    else:
+        st.sidebar.warning("No news articles found.")
 else:
-    st.sidebar.warning("Could not fetch news.")
+    st.sidebar.warning("Could not fetch news. Please check the API key or try again later.")
+
 
 # Crypto Prediction Game
 st.sidebar.header("🎮 Crypto Prediction Game")
