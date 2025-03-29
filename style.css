@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&family=Montserrat:wght@400;600;800&display=swap');
 
 body {
-    background-color: #F0EDEE; /* Change background color */
+    background-color: #F0EDEE; /* Keep background color */
     font-family: 'Poppins', sans-serif; /* Custom Font */
     color: #07393c; /* Text color */
 }
@@ -12,33 +12,22 @@ h1, h2, h3, h4, h5, h6 {
     color: #2C666E;
 }
 
-# Custom CSS to change link color to white
-st.markdown(
-    """
-    <style>
-    a {
-        color: white !important;
-        text-decoration: none;
-    }
-    a:hover {
-        color: #cccccc !important; /* Light gray on hover */
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-# Display news articles
-if articles:
-    for article in articles:
-        st.sidebar.markdown(f"🔹 <a href='{article['url']}' target='_blank'>{article['title']}</a>", unsafe_allow_html=True)
-
+/* Fix: Ensure links are white */
+a {
+    color: white !important; 
+    text-decoration: none;
+}
+a:hover {
+    color: #cccccc !important; /* Light gray on hover */
+    text-decoration: underline;
+}
 
 /* Customizing Streamlit Components */
 .stApp {
     background-color: #dbdadac4;
     padding: 20px;
     border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Style Streamlit Buttons */
@@ -69,24 +58,8 @@ if articles:
     padding: 10px;
 }
 
-.stApp {
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
+/* Style DataFrames */
 .stDataFrame {
     border-radius: 10px;
     overflow: hidden;
 }
-
-.stButton > button {
-    transition: all 0.3s ease-in-out;
-}
-
-a {
-    color: #3498db !important;
-    text-decoration: none;
-}
-a:hover {
-    text-decoration: underline;
-}
-
