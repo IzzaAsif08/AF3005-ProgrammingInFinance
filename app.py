@@ -38,6 +38,24 @@ if cryptos:
     total_value = portfolio["Total Value (USD)"].sum()
     st.success(f"💰 Total Portfolio Value: ${total_value:,.2f}")
 
+# User Input: Buy Prices
+portfolio["Buy Price (USD)"] = [st.sidebar.number_input(f"Buy Price for {crypto}?", min_value=0.0, step=0.01) for crypto in cryptos]
+
+# Calculate Profit/Loss
+portfolio["Profit/Loss (USD)"] = (portfolio["Current Price (USD)"] - portfolio["Buy Price (USD)"]) * portfolio["Amount"]
+portfolio["Profit/Loss (%)"] = ((portfolio["Current Price (USD)"] - portfolio["Buy Price (USD)"]) / portfolio["Buy Price (USD)"]) * 100
+
+st.write("### Profit/Loss Summary")
+st.write(portfolio[["Crypto", "Profit/Loss (USD)", "Profit/Loss (%)"]])
+
+# Show total profit/loss
+total_profit_loss = portfolio["Profit/Loss (USD)"].sum()
+if total_profit_loss >= 0:
+    st.success(f"📈 Total Profit: ${total_profit_loss:,.2f}")
+else:
+    st.error(f"📉 Total Loss: ${total_profit_loss:,.2f}")
+
+
 
 if cryptos:
     fig = px.pie(portfolio, names="Crypto", values="Total Value (USD)", title="Portfolio Distribution")
@@ -52,16 +70,18 @@ if cryptos:
     st.write("### Portfolio Health Score")
     st.progress(int(health_score))
 
+# Allow custom date selection
+st.sidebar.header("📅 Custom Backtesting")
+start_date = st.sidebar.date_input("Start Date")
+end_date = st.sidebar.date_input("End Date")
 
-st.sidebar.header("📅 Backtesting")
-time_period = st.sidebar.selectbox("Select Time Period", ["1y", "6mo", "3mo"])
-
-if cryptos:
-    hist_data = {crypto: yf.Ticker(crypto).history(period=time_period)["Close"] for crypto in cryptos}
+if cryptos and start_date and end_date:
+    hist_data = {crypto: yf.Ticker(crypto).history(start=start_date, end=end_date)["Close"] for crypto in cryptos}
     hist_df = pd.DataFrame(hist_data)
 
-    st.write(f"### Backtesting for {time_period}")
+    st.write(f"### Price History from {start_date} to {end_date}")
     st.line_chart(hist_df)
+
 
 
 import requests
@@ -80,8 +100,43 @@ if st.sidebar.button("Check Whale Transactions"):
     else:
         st.warning("Could not fetch whale transactions.")
 
+import requests
+
+st.sidebar.header("📰 Crypto News")
+
+news_api_url = "https://api.coingecko.com/api/v3/news"
+response = requests.get(news_api_url)
+
+if response.status_code == 200:
+    news_data = response.json()
+    top_news = news_data["data"][:5]  # Get top 5 news articles
+
+    for article in top_news:
+        st.sidebar.markdown(f"🔹 [{article['title']}]({article['url']})")
+else:
+    st.sidebar.warning("Could not fetch news.")
+
+
 st.sidebar.header("🎮 Crypto Prediction Game")
 
 prediction = st.sidebar.radio("Where do you think BTC will be tomorrow?", ["Up", "Down", "Same"])
 if st.sidebar.button("Submit Prediction"):
     st.sidebar.success("Prediction Submitted! Check tomorrow to see results.")
+
+st.sidebar.header("🚀 Market Movers")
+
+trending_api_url = "https://api.coingecko.com/api/v3/search/trending"
+response = requests.get(trending_api_url)
+
+if response.status_code == 200:
+    trending_data = response.json()
+    trending_coins = trending_data["coins"][:5]  # Get top 5 trending coins
+
+    for coin in trending_coins:
+        name = coin["item"]["name"]
+        symbol = coin["item"]["symbol"]
+        price = coin["item"]["price_btc"]
+        st.sidebar.write(f"🔥 {name} ({symbol.upper()}) - {price:.8f} BTC")
+else:
+    st.sidebar.warning("Could not fetch trending coins.")
+
