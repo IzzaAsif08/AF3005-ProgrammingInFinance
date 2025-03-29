@@ -4,12 +4,12 @@ import yfinance as yf
 import plotly.express as px
 import requests
 
+# Load CSS
 def load_css(file_name):
     with open(file_name) as f:
         css = f.read()
         st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
 
-# Load CSS
 load_css("style.css")
 
 st.title("🚀 CryptoGird: Smart Portfolio Tracker")
@@ -62,33 +62,38 @@ if cryptos and start_date and end_date:
     st.write(f"### Price History from {start_date} to {end_date}")
     st.line_chart(pd.DataFrame(hist_data))
 
-# Whale Transactions
+# 🐋 **Whale Transactions**
 st.sidebar.header("🐋 Whale Watcher")
 if st.sidebar.button("Check Whale Transactions"):
-    whale_api_url = "https://api.whale-alert.io/v1/transactions?api_key=your_api_key"
-    response = requests.get(whale_api_url)
+    whale_api_url = "https://api.whale-alert.io/v1/transactions"
+    api_key = "your_api_key"  # Replace with your valid API key
+
+    headers = {"Authorization": f"Bearer {api_key}"}
+    params = {"limit": 5}  # Fetch latest 5 transactions
+    response = requests.get(whale_api_url, headers=headers, params=params)
+
     if response.status_code == 200:
         whale_data = response.json()
-        st.write("### Recent Whale Transactions")
-        for tx in whale_data.get("transactions", [])[:5]:
-            st.write(f"{tx['amount']} {tx['symbol']} moved worth ${tx['amount_usd']}")
+        transactions = whale_data.get("transactions", [])
+
+        if transactions:
+            st.write("### Recent Whale Transactions")
+            for tx in transactions:
+                symbol = tx.get("symbol", "Unknown")
+                amount = tx.get("amount", 0)
+                amount_usd = tx.get("amount_usd", 0)
+                st.write(f"🔹 {amount} {symbol.upper()} moved worth ${amount_usd:,.2f}")
+        else:
+            st.warning("No whale transactions found.")
     else:
-        st.warning("Could not fetch whale transactions.")
+        st.error(f"❌ Error fetching whale transactions (Status Code: {response.status_code})")
 
-# Crypto News
+# 📰 **Crypto News**
 st.sidebar.header("📰 Crypto News")
-news_api_url = "https://newsapi.org/v2/everything?q=cryptocurrency&apiKey=your_api_key"
-
-import requests
-
-st.sidebar.header("📰 Crypto News")
-
-# Use your actual API key here
-api_key = "15acab4c6aff4853abe5ae351a0e13d8"
-news_api_url = f"https://newsapi.org/v2/everything?q=cryptocurrency&sortBy=publishedAt&language=en&apiKey={api_key}"
+news_api_key = "15acab4c6aff4853abe5ae351a0e13d8"  # Replace with your API key
+news_api_url = f"https://newsapi.org/v2/everything?q=cryptocurrency&sortBy=publishedAt&language=en&apiKey={news_api_key}"
 
 response = requests.get(news_api_url)
-
 if response.status_code == 200:
     news_data = response.json()
     articles = news_data.get("articles", [])[:5]  # Get top 5 news articles
@@ -101,14 +106,13 @@ if response.status_code == 200:
 else:
     st.sidebar.warning("Could not fetch news. Please check the API key or try again later.")
 
-
-# Crypto Prediction Game
+# 🎮 **Crypto Prediction Game**
 st.sidebar.header("🎮 Crypto Prediction Game")
 prediction = st.sidebar.radio("Where do you think BTC will be tomorrow?", ["Up", "Down", "Same"])
 if st.sidebar.button("Submit Prediction"):
     st.sidebar.success("Prediction Submitted! Check tomorrow to see results.")
 
-# Market Movers
+# 🚀 **Market Movers**
 st.sidebar.header("🚀 Market Movers")
 trending_api_url = "https://api.coingecko.com/api/v3/search/trending"
 response = requests.get(trending_api_url)
